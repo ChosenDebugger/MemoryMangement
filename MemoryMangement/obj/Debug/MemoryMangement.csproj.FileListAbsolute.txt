@@ -1,0 +1,17 @@
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\bin\Debug\MemoryMangement.exe.config
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\bin\Debug\MemoryMangement.exe
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\bin\Debug\MemoryMangement.pdb
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.csprojAssemblyReference.cache
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MainWindow.g.cs
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\App.g.cs
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement_MarkupCompile.cache
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement_MarkupCompile.lref
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MainWindow.baml
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.g.resources
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.Properties.Resources.resources
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.csproj.GenerateResource.cache
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.csproj.CoreCompileInputs.cache
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.exe
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\MemoryMangement.pdb
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\BeginCommandChosen.g.cs
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\BeginCommandChosen.baml

@@ -1,0 +1,95 @@
+﻿<Window x:Class="MemoryMangement.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MemoryMangement"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="生成指令序列" HorizontalAlignment="Left" Margin="616,335,0,0" VerticalAlignment="Top" Width="124" Height="46" Click="CommandChosenButton_Click" Name="CommandChosenButton"/>
+        <Button Content="单步执行" HorizontalAlignment="Left" Margin="616,81,0,0" VerticalAlignment="Top" Width="124" Height="40" Click="SingleExecute_Click" Name="SingleExecute"/>
+        <Button Content="执行到底" HorizontalAlignment="Left" Margin="616,165,0,0" VerticalAlignment="Top" Width="124" Height="40" Click="AllExecute_Click" Name="AllExecute"/>
+        <Grid Margin="40,56,682.333,39.667">
+            <Label Content="Block1" Name="Block1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
+
+            <Label Content="Label" Name="BLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
+            <Label Content="Label" Name="BLabel2" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,55,0,0"/>
+            <Label Content="Label" Name="BLabel3" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,85,0,0"/>
+            <Label Content="Label" Name="BLabel4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,115,0,0"/>
+            <Label Content="Label" Name="BLabel5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,145,0,0"/>
+            <Label Content="Label" Name="BLabel6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,120"/>
+            <Label Content="Label" Name="BLabel7" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,90"/>
+            <Label Content="Label" Name="BLabel8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,60"/>
+            <Label Content="Label" Name="BLabel9" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,30"/>
+            <Label Content="Label" Name="BLabel10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
+        </Grid>
+
+        <Grid Margin="437,51,214.333,238.667">
+            <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="CurrentCommandText"/>
+            <Label Content="当前指令" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142"/>
+            <TextBox HorizontalAlignment="Left" Height="36" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="CommandAddressText"/>
+            <Label Content="指令地址" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142" Margin="0,65,0,0"/>
+        </Grid>
+
+        <Grid Margin="439,203,212.333,151.667">
+            <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="NextCommandText"/>
+            <Label Content="下一条指令" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142"/>
+        </Grid>
+        <Grid Margin="132,56,590.333,39.667">
+            <Label Content="Block2" Name="Block2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
+
+            <Label Content="Label" Name="BLabel11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
+            <Label Content="Label" Name="BLabel12" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,55,0,0"/>
+            <Label Content="Label" Name="BLabel13" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,85,0,0"/>
+            <Label Content="Label" Name="BLabel14" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,115,0,0"/>
+            <Label Content="Label" Name="BLabel15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,145,0,0"/>
+            <Label Content="Label" Name="BLabel16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,120"/>
+            <Label Content="Label" Name="BLabel17" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,90"/>
+            <Label Content="Label" Name="BLabel18" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,60"/>
+            <Label Content="Label" Name="BLabel19" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,30"/>
+            <Label Content="Label" Name="BLabel20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
+        </Grid>
+        <Grid Margin="221,56,501.333,39.667">
+            <Label Content="Block3" Name="Block3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
+
+            <Label Content="Label" Name="BLabel21" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
+            <Label Content="Label" Name="BLabel22" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,55,0,0"/>
+            <Label Content="Label" Name="BLabel23" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,85,0,0"/>
+            <Label Content="Label" Name="BLabel24" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,115,0,0"/>
+            <Label Content="Label" Name="BLabel25" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,145,0,0"/>
+            <Label Content="Label" Name="BLabel26" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,120"/>
+            <Label Content="Label" Name="BLabel27" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,90"/>
+            <Label Content="Label" Name="BLabel28" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,60"/>
+            <Label Content="Label" Name="BLabel29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,30"/>
+            <Label Content="Label" Name="BLabel30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
+        </Grid>
+        <Grid Margin="312,56,410.333,39.667">
+            <Label Content="Block4" Name="Block4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
+
+            <Label Content="Label" Name="BLabel31" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
+            <Label Content="Label" Name="BLabel32" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,55,0,0"/>
+            <Label Content="Label" Name="BLabel33" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,85,0,0"/>
+            <Label Content="Label" Name="BLabel34" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,115,0,0"/>
+            <Label Content="Label" Name="BLabel35" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,145,0,0"/>
+            <Label Content="Label" Name="BLabel36" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,120"/>
+            <Label Content="Label" Name="BLabel37" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,90"/>
+            <Label Content="Label" Name="BLabel38" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,60"/>
+            <Label Content="Label" Name="BLabel39" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,30"/>
+            <Label Content="Label" Name="BLabel40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
+
+
+
+
+        </Grid>
+        <RadioButton Content="FIFO" HorizontalAlignment="Left" Margin="439,295,0,0" VerticalAlignment="Top" Name="FIFO_Button" Checked="RadioButton_Checked"/>
+        <RadioButton Content="LRU" HorizontalAlignment="Left" Margin="538,295,0,0" VerticalAlignment="Top" Name="LRU_Button" Checked="LRU_Button_Checked" />
+        <Grid Margin="437,315,214.333,39.667">
+            <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" x:Name="LackedNumText"/>
+            <Label Content="缺页数" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142"/>
+        </Grid>
+
+
+
+    </Grid>
+</Window>
