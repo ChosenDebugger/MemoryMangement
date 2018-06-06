@@ -29,7 +29,7 @@ namespace MemoryMangement
 
         public int currentCommand = -1;                                  //当前指令在指令中的次序
 
-        public CommandPage[] commandPages = new CommandPage[32];        //内存块个数
+        public CommandPage[] commandPages = new CommandPage[32];        //内存页数
 
         public int[] currentBlocks = new int[4];                 //内存中的当前四个块中存储的页面ID
 
@@ -41,25 +41,34 @@ namespace MemoryMangement
         //用于启动和复位
         private void Init()
         {
+            //表示当前指令集无效
             command[0] = -1;
 
             //清空数组
-            //currentBlocks.Clear();
+            for (int i = 0; i < 4; i++) 
+            {
+                currentBlocks[i] = 0;
+            }
             
             currentCommand = -1;
 
             for (int i = 1; i <= 40; i++)
             {
-                Label label = FindName("BLabel"+ Convert.ToString(i) ) as Label;
+                Label label = FindName("BLabel"+ Convert.ToString(i)) as Label;
                 label.Content = '-';
             }
 
             blocksForFIFO.Clear();
-            envokedNumsForLRU[0] = -1;
+            for(int i=0;i<4;i++)
+            {
+                //-1表示i块目前无页面
+                envokedNumsForLRU[i] = -1;
+            }
 
             CurrentCommandText.Text = "-";
-            NextCommandText.Text = "1";
-            LackedNumText.Text = "0";
+            CommandAddressText.Text = "-";
+            NextCommandText.Text = "-";
+            LackedNumText.Text = Convert.ToString(LackedNum);
         }
 
         public MainWindow()
@@ -106,28 +115,218 @@ namespace MemoryMangement
                         flag = 1;
                     }
                 }
-
                 //当生成指令队列后
                 //该按钮应变成显示已生成队列
                 commandChosenButtonModel = 2;
-                
                 CommandChosenButton.Content = "显示指令序列";
-                
             }
+            //展示页面
             if (commandChosenButtonModel == 2)
-                ShowCommand();
+            {
+                for (int i = 0; i < 319; i++)
+                    Console.WriteLine(command[i]);
+            }
         }
 
-        //展示页面
-        private void ShowCommand()
+        private void SingleExecute_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 319; i++)
-                Console.WriteLine(command[i]);
+            if (commandChosenButtonModel == 1)
+            {
+                MessageBox.Show("请先生成指令组");
+                return;
+            }
+            if (alogrithmesModel == 0)
+            {
+                MessageBox.Show("请先选择置换算法");
+                return;
+            }
+
+            currentCommand++;
+
+            int pageID = (command[currentCommand] - 1) / 10;
+
+            if (IfExist(pageID))
+            {
+                UpdateMessage();
+                return;
+            }
+
+            else
+            {
+                //说明内存块还没有满
+                //新调用页而不是置换
+                if (currentBlocks[3] == 0)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (currentBlocks[i] == 0)
+                        {
+                            currentBlocks[i] = pageID;
+                            blocksForFIFO.Enqueue(commandPages[pageID - 1]);
+                            envokedNumsForLRU[i] = 0;
+                            break;
+                        }
+                    }
+                    UpdateMessage();
+                    return;
+                }
+
+                //说明内存已满并且没有所需内存
+                //需要置换内存块
+                //调用内存块并凸显新内存块
+                //返回地址
+                //BLabel 变色
+                //缺页数++
+                else
+                {
+                    LackedNum++;
+
+                    //这里要区分FIFO和LRU
+                    //FIFO
+                    if (alogrithmesModel == 1)
+                        FIFO(pageID);
+
+                    //LRU
+                    if (alogrithmesModel == 2)
+                        LRU(pageID);
+
+                    UpdateMessage();
+                    return;
+                }
+            }
         }
 
+        private void AllExecute_Click(object sender, RoutedEventArgs e)
+        {
+            if (commandChosenButtonModel == 1)
+            {
+                MessageBox.Show("请先生成指令组");
+                return;
+            }
+            if (alogrithmesModel == 0)
+            {
+                MessageBox.Show("请先选择置换算法");
+                return;
+            }
+            UpdateMessage();
+        }
+
+        /*private void RecoverOldMessage()
+        {
+            int lastCommand = currentCommand - 1;
+            int lastPage = (lastCommand - 1) / 10;
+
+            for (int i = 0; i < 4; i++)
+            {
+                if(currentBlocks[i]==lastPage)
+                {
+                    Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
+                    labelB.Background = Brushes.White;
+
+                    Label labelC = FindName("BLabel" + Convert.ToString(i * 10 + (command[lastCommand] - 1) % 10)) as Label;
+                    labelC.Background = Brushes.LightGray;
+                }
+            }
+        }*/
+
+        /*private void UpdateNewMessage()
+        {
+            CurrentCommandText.Text = Convert.ToString(command[currentCommand]);
+            NextCommandText.Text = Convert.ToString(command[currentCommand + 1]);
+            LackedNumText.Text = Convert.ToString(LackedNum);
+
+            int currentPage = (command[currentCommand] - 1) / 10;
+
+            for(int i=0;i<4;i++)
+            {
+                if (currentBlocks[i] == currentPage)
+                {
+                    Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
+                    labelB.Content = "Page" + Convert.ToString(currentPage);
+                    labelB.Background = Brushes.DarkBlue;
+                    
+                    Label labelC;
+
+                    for (int j=0;j<10;j++)
+                    {
+                        labelC = FindName("BLabel" + Convert.ToString(i * 10 + j + 1)) as Label;
+                        labelC.Content = Convert.ToString(currentPage * 10 + j + 1);
+
+                        if (j == (command[currentCommand] - 1) % 10)
+                            labelC.Background = Brushes.DarkGray;
+                        else
+                            labelC.Background = Brushes.LightGray;
+                    }
+                }
+            }
+        }*/
+
+        /*private void UpdateMessage()
+        {
+            if (currentCommand != 0)
+            {
+                RecoverOldMessage();
+            }
+            UpdateNewMessage();
+        }*/
+
+        
+        private void UpdateMessage()
+        {
+            //地址块变色
+            //地址栏返回地址
+
+            if (currentCommand > 0)
+            {
+                int lastCommand = currentCommand - 1;
+                int lastPage = (command[lastCommand] - 1) / 10;
+
+                //恢复状态
+                for (int i = 0; i < 4; i++)
+                {
+                    if (currentBlocks[i] == lastPage)
+                    {
+                        Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
+                        labelB.Background = Brushes.White;
+
+                        Label labelC = FindName("BLabel" + Convert.ToString(i * 10 + (command[lastCommand] - 1) % 10 + 1)) as Label;
+                        labelC.Background = Brushes.LightGray;
+
+                        break;
+                    }
+                }
+            }
+
+            int pageID = (command[currentCommand] - 1) / 10;
+
+            CurrentCommandText.Text = Convert.ToString(command[currentCommand]);
+            NextCommandText.Text = Convert.ToString(command[currentCommand + 1]);
+            LackedNumText.Text = Convert.ToString(LackedNum);
+
+            for (int i = 0; i < 4; i++)
+            {
+                //块为空块，因此不予操作
+                if (currentBlocks[i] == 0) break;
+
+                Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
+                labelB.Content = "Page" + Convert.ToString(currentBlocks[i]);
+                labelB.Background = Brushes.DarkBlue;
+                
+                for (int j = 0; j < 10; j++)
+                {
+                    Label labelC = FindName("BLabel" + Convert.ToString(i * 10 + j + 1)) as Label;
+                    labelC.Content = Convert.ToString(currentBlocks[i] * 10 + j + 1);
+
+                    if ((currentBlocks[i] * 10 + j + 1) == command[currentCommand])
+                        labelC.Background = Brushes.DarkViolet;
+                }
+            }
+
+        }
+        
         private bool IfExist(int BlockNum)
         {
-            for(int i=0;i<currentBlocks.Count();i++)
+            for (int i = 0; i < currentBlocks.Count(); i++)
             {
                 if (currentBlocks[i] == BlockNum)
                     return true;
@@ -135,39 +334,19 @@ namespace MemoryMangement
             return false;
         }
 
-        private void ShowAddress()
-        {
-            //地址块变色
-            //地址栏返回地址
-
-            int commandPageID = currentCommand / 10 + 1;
-
-            int commandPageNumber = currentCommand - commandPageID * 10;
-            
-        }
-
-        private void FIFO(int targetBlock)
+        private void FIFO(int targetPage)
         {
             CommandPage abandonedPage = blocksForFIFO.Dequeue();
-            blocksForFIFO.Enqueue(commandPages[targetBlock]);
+            blocksForFIFO.Enqueue(commandPages[targetPage]);
 
             for (int i = 0; i < 4; i++)
             {
                 if (currentBlocks[i] == abandonedPage.pageNum)
                 {
-                    currentBlocks[i] = abandonedPage.pageNum;
-
-                    Label label = FindName("Block" + Convert.ToString(i + 1))as Label;
-                    label.Content = "Page" + Convert.ToString(targetBlock);
-                }
-                for (int j = 1; j <= 10; j++)
-                {
-                    Label label = FindName("Blabel" + Convert.ToString((i * 10) + j)) as Label;
-                    label.Content = targetBlock * 10 + j;
+                    currentBlocks[i] = targetPage;
                 }
 
                 envokedNumsForLRU[i] = 0;
-
                 for (int j = 0; j < 4; j++)
                 {
                     if (j == i) continue;
@@ -208,90 +387,8 @@ namespace MemoryMangement
                 envokedNumsForLRU[i]++;
             }
 
-        }
-
-        private void SingleExecute_Click(object sender, RoutedEventArgs e)
-        {
-            if(commandChosenButtonModel == 1)
-            {
-                MessageBox.Show("请先生成指令组");
-                return;
-            }
-            if(alogrithmesModel == 0 )
-            {
-                MessageBox.Show("请先选择置换算法");
-                return;
-            }
-
-            currentCommand++;
-
-            int blockID = command[currentCommand] / 10 - 1;
-
-            //说明块没有满
-            if (currentBlocks[3] == 0)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (currentBlocks[i] == 0)
-                    {
-                        currentBlocks[i] = blockID;
-                        Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
-                        labelB.Content = Convert.ToString(blockID);
-
-                        for (int j=0;j<10;j++)
-                        {
-                            Label labelC = FindName("BLabel" + Convert.ToString(i + j + 1)) as Label;
-                            labelC.Content = Convert.ToString(blockID * 10 + j + 1);
-                        }
-                        break;
-                    }
-                }
-                return;
-            }
-
-            if (!IfExist(blockID)) 
-            {
-                //不在内存
-                //调用内存块并凸显新内存块
-                //返回地址
-                //BLabel 变色
-                //缺页数++
-                LackedNum++;
-                LackedNumText.Text = Convert.ToString(LackedNum);
-
-                //这里要区分FIFO和LRU
-                //FIFO
-                if (alogrithmesModel == 1)
-                    FIFO(blockID);
-
-
-                //LRU
-                if (alogrithmesModel == 2)
-                    LRU(blockID);
-            }
-
-            //else
-            //{
-                //已在内存
-                //返回地址
-                //BLabel 变色
-            //}
-            
-            ShowAddress();
-        }
-
-        private void AllExecute_Click(object sender, RoutedEventArgs e)
-        {
-            if (commandChosenButtonModel == 1)
-            {
-                MessageBox.Show("请先生成指令组");
-                return;
-            }
-            if (alogrithmesModel == 0)
-            {
-                MessageBox.Show("请先选择置换算法");
-                return;
-            }
+            blocksForFIFO.Dequeue();
+            blocksForFIFO.Enqueue(commandPages[targetPage]);
 
         }
 
