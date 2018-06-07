@@ -27,13 +27,11 @@ namespace MemoryMangement
 
         public int[] command = new int[320];                            //320条指令序列
 
-        public int currentCommand = -1;                                  //当前指令在指令中的次序
-
-        public CommandPage[] commandPages = new CommandPage[32];        //内存页数
+        public int currentCommand = 0;                                  //当前指令在指令中的次序
 
         public int[] currentBlocks = new int[4];                 //内存中的当前四个块中存储的页面ID
 
-        private Queue<CommandPage> blocksForFIFO = new Queue<CommandPage>();   //为FIFO算法维护的队列，记录pages进入block的前后顺序，先出头，后出尾
+        private Queue<int> blocksForFIFO = new Queue<int>();   //为FIFO算法维护的队列，记录pages进入block的前后顺序，先出头，后出尾
         
         private int[] envokedNumsForLRU = new int[4];                   //为LRU算法维护的数组，记录当前块中各page距上次被调用的距离
         
@@ -47,10 +45,10 @@ namespace MemoryMangement
             //清空数组
             for (int i = 0; i < 4; i++) 
             {
-                currentBlocks[i] = 0;
+                currentBlocks[i] = -1;
             }
-            
-            currentCommand = -1;
+
+            currentCommand = 0;
 
             for (int i = 1; i <= 40; i++)
             {
@@ -75,11 +73,6 @@ namespace MemoryMangement
         {
             InitializeComponent();
 
-            for (int i = 0; i < 32; i++)
-            {
-                commandPages[i].pageNum = i + 1;
-            }
-
             Init();
 
         }
@@ -97,7 +90,7 @@ namespace MemoryMangement
 
                 int flag = 1;
 
-                for (int i = 1; i < 319; i++)
+                for (int i = 1; i < 320; i++)
                 {
                     if (flag == 1 || flag == 3)
                     {
@@ -128,6 +121,12 @@ namespace MemoryMangement
             }
         }
 
+        private void FinalCommand()
+        {
+            LackedRate form = new LackedRate(LackedNum);
+            form.ShowDialog();
+        }
+
         private void SingleExecute_Click(object sender, RoutedEventArgs e)
         {
             if (commandChosenButtonModel == 1)
@@ -141,13 +140,22 @@ namespace MemoryMangement
                 return;
             }
 
+            if (currentCommand == 320)
+            {
+                FinalCommand();
+                return;
+            }
             currentCommand++;
 
-            int pageID = (command[currentCommand] - 1) / 10;
+            int pageID = (command[currentCommand - 1] - 1) / 10 + 1;
 
             if (IfExist(pageID))
             {
                 UpdateMessage();
+
+                if (currentCommand == 320)
+                    FinalCommand();
+
                 return;
             }
 
@@ -155,20 +163,19 @@ namespace MemoryMangement
             {
                 //说明内存块还没有满
                 //新调用页而不是置换
-                if (currentBlocks[3] == 0)
+                if (currentBlocks[3] == -1)
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        if (currentBlocks[i] == 0)
+                        if (currentBlocks[i] == -1)
                         {
                             currentBlocks[i] = pageID;
-                            blocksForFIFO.Enqueue(commandPages[pageID - 1]);
+                            blocksForFIFO.Enqueue(pageID);
                             envokedNumsForLRU[i] = 0;
                             break;
                         }
                     }
                     UpdateMessage();
-                    return;
                 }
 
                 //说明内存已满并且没有所需内存
@@ -191,9 +198,11 @@ namespace MemoryMangement
                         LRU(pageID);
 
                     UpdateMessage();
-                    return;
                 }
             }
+
+            if (currentCommand == 320)
+                FinalCommand();
         }
 
         private void AllExecute_Click(object sender, RoutedEventArgs e)
@@ -208,127 +217,64 @@ namespace MemoryMangement
                 MessageBox.Show("请先选择置换算法");
                 return;
             }
-            UpdateMessage();
+
+            for (int i = currentCommand; i < 320; i++)
+            {
+                SingleExecute_Click(sender, e);
+            }
         }
 
-        /*private void RecoverOldMessage()
-        {
-            int lastCommand = currentCommand - 1;
-            int lastPage = (lastCommand - 1) / 10;
-
-            for (int i = 0; i < 4; i++)
-            {
-                if(currentBlocks[i]==lastPage)
-                {
-                    Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
-                    labelB.Background = Brushes.White;
-
-                    Label labelC = FindName("BLabel" + Convert.ToString(i * 10 + (command[lastCommand] - 1) % 10)) as Label;
-                    labelC.Background = Brushes.LightGray;
-                }
-            }
-        }*/
-
-        /*private void UpdateNewMessage()
-        {
-            CurrentCommandText.Text = Convert.ToString(command[currentCommand]);
-            NextCommandText.Text = Convert.ToString(command[currentCommand + 1]);
-            LackedNumText.Text = Convert.ToString(LackedNum);
-
-            int currentPage = (command[currentCommand] - 1) / 10;
-
-            for(int i=0;i<4;i++)
-            {
-                if (currentBlocks[i] == currentPage)
-                {
-                    Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
-                    labelB.Content = "Page" + Convert.ToString(currentPage);
-                    labelB.Background = Brushes.DarkBlue;
-                    
-                    Label labelC;
-
-                    for (int j=0;j<10;j++)
-                    {
-                        labelC = FindName("BLabel" + Convert.ToString(i * 10 + j + 1)) as Label;
-                        labelC.Content = Convert.ToString(currentPage * 10 + j + 1);
-
-                        if (j == (command[currentCommand] - 1) % 10)
-                            labelC.Background = Brushes.DarkGray;
-                        else
-                            labelC.Background = Brushes.LightGray;
-                    }
-                }
-            }
-        }*/
-
-        /*private void UpdateMessage()
-        {
-            if (currentCommand != 0)
-            {
-                RecoverOldMessage();
-            }
-            UpdateNewMessage();
-        }*/
-
-        
         private void UpdateMessage()
         {
-            //地址块变色
-            //地址栏返回地址
+            int currentCommandAddressBlock;
+            int currentCommandAddressNo;
 
-            if (currentCommand > 0)
-            {
-                int lastCommand = currentCommand - 1;
-                int lastPage = (command[lastCommand] - 1) / 10;
+            int pageID = (command[currentCommand - 1] - 1) / 10 + 1;
 
-                //恢复状态
-                for (int i = 0; i < 4; i++)
-                {
-                    if (currentBlocks[i] == lastPage)
-                    {
-                        Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
-                        labelB.Background = Brushes.White;
-
-                        Label labelC = FindName("BLabel" + Convert.ToString(i * 10 + (command[lastCommand] - 1) % 10 + 1)) as Label;
-                        labelC.Background = Brushes.LightGray;
-
-                        break;
-                    }
-                }
-            }
-
-            int pageID = (command[currentCommand] - 1) / 10;
-
-            CurrentCommandText.Text = Convert.ToString(command[currentCommand]);
-            NextCommandText.Text = Convert.ToString(command[currentCommand + 1]);
+            CurrentCommandText.Text = Convert.ToString(command[currentCommand - 1]);
             LackedNumText.Text = Convert.ToString(LackedNum);
 
+            if (currentCommand == 320)
+                NextCommandText.Text = "-";
+            
+            Label labelB, labelC;
             for (int i = 0; i < 4; i++)
             {
-                //块为空块，因此不予操作
-                if (currentBlocks[i] == 0) break;
-
-                Label labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
-                labelB.Content = "Page" + Convert.ToString(currentBlocks[i]);
-                labelB.Background = Brushes.DarkBlue;
+                if (currentBlocks[i] == -1) break;
                 
+                labelB = FindName("Block" + Convert.ToString(i + 1)) as Label;
+                labelB.Content = "Page" + Convert.ToString(currentBlocks[i]);
+
+                if (currentBlocks[i] == pageID)
+                    labelB.Background = Brushes.DarkBlue;
+                else
+                    labelB.Background = Brushes.White;
+
                 for (int j = 0; j < 10; j++)
                 {
-                    Label labelC = FindName("BLabel" + Convert.ToString(i * 10 + j + 1)) as Label;
-                    labelC.Content = Convert.ToString(currentBlocks[i] * 10 + j + 1);
+                    labelC = FindName("BLabel" + Convert.ToString(i * 10 + j + 1)) as Label;
+                    labelC.Content = Convert.ToString((currentBlocks[i] - 1) * 10 + j + 1);
 
-                    if ((currentBlocks[i] * 10 + j + 1) == command[currentCommand])
+                    if ((currentBlocks[i] - 1) * 10 + j + 1 == command[currentCommand - 1])
+                    {
                         labelC.Background = Brushes.DarkViolet;
+                        currentCommandAddressBlock = i + 1;
+                        currentCommandAddressNo = j + 1;
+
+                        CommandAddressText.Text = "Block" + Convert.ToString(currentCommandAddressBlock) +
+                            "   NO." + Convert.ToString(currentCommandAddressNo);
+                    }
+                    else
+                        labelC.Background = Brushes.LightGray;
                 }
             }
-
         }
         
-        private bool IfExist(int BlockNum)
+        private bool IfExist(int TargetPage)
         {
-            for (int i = 0; i < currentBlocks.Count(); i++)
+            for (int i = 0; i < 4; i++)
             {
-                if (currentBlocks[i] == BlockNum)
+                if (currentBlocks[i] == TargetPage)
                     return true;
             }
             return false;
@@ -336,21 +282,20 @@ namespace MemoryMangement
 
         private void FIFO(int targetPage)
         {
-            CommandPage abandonedPage = blocksForFIFO.Dequeue();
-            blocksForFIFO.Enqueue(commandPages[targetPage]);
+            int abandonedPage = blocksForFIFO.Dequeue();
+            blocksForFIFO.Enqueue(targetPage);
 
             for (int i = 0; i < 4; i++)
             {
-                if (currentBlocks[i] == abandonedPage.pageNum)
+                if (currentBlocks[i] == abandonedPage)
                 {
                     currentBlocks[i] = targetPage;
+                    envokedNumsForLRU[i] = 0;
                 }
 
-                envokedNumsForLRU[i] = 0;
                 for (int j = 0; j < 4; j++)
                 {
                     if (j == i) continue;
-
                     envokedNumsForLRU[j]++;
                 }
             }
@@ -370,7 +315,7 @@ namespace MemoryMangement
                 }
             }
 
-            currentBlocks[minNum] = commandPages[targetPage].pageNum;
+            currentBlocks[minNum] = targetPage;
 
             Label labelP = FindName("Block" + Convert.ToString(minBlock + 1)) as Label;
 
@@ -388,7 +333,7 @@ namespace MemoryMangement
             }
 
             blocksForFIFO.Dequeue();
-            blocksForFIFO.Enqueue(commandPages[targetPage]);
+            blocksForFIFO.Enqueue(targetPage);
 
         }
 

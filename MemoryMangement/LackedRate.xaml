@@ -1,0 +1,17 @@
+﻿<Window x:Class="MemoryMangement.LackedRate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MemoryMangement"
+        mc:Ignorable="d"
+        Title="LackedRate" Height="450" Width="800">
+    <Grid>
+        <Label Content="缺页数：" HorizontalAlignment="Left" Margin="101,145,0,0" VerticalAlignment="Top" Height="27" Width="57"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="158,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="LackedNumText"/>
+        <Label Content="缺页率：" HorizontalAlignment="Left" Margin="101,196,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="158,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="LackedRateText"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="445,240,0,0" VerticalAlignment="Top" Width="75" Name="ReturnButton" Click="ReturnButton_Click" />
+
+    </Grid>
+</Window>
