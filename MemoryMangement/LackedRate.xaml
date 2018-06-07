@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryMangement"
         mc:Ignorable="d"
-        Title="LackedRate" Height="450" Width="800">
+        Title="LackedRate" Height="240" Width="460">
     <Grid>
-        <Label Content="缺页数：" HorizontalAlignment="Left" Margin="101,145,0,0" VerticalAlignment="Top" Height="27" Width="57"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="158,147,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="LackedNumText"/>
-        <Label Content="缺页率：" HorizontalAlignment="Left" Margin="101,196,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="158,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="LackedRateText"/>
-        <Button Content="确定" HorizontalAlignment="Left" Margin="445,240,0,0" VerticalAlignment="Top" Width="75" Name="ReturnButton" Click="ReturnButton_Click" />
+        <Label Content="缺页数：" HorizontalAlignment="Left" Margin="48,61,0,0" VerticalAlignment="Top" Height="27" Width="57"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="105,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="LackedNumText"/>
+        <Label Content="缺页率：" HorizontalAlignment="Left" Margin="48,112,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="105,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="LackedRateText"/>
+        <Button Content="确定" HorizontalAlignment="Left" Margin="278,95,0,0" VerticalAlignment="Top" Width="94" Name="ReturnButton" Click="ReturnButton_Click" Height="42" FontSize="18" />
 
     </Grid>
 </Window>

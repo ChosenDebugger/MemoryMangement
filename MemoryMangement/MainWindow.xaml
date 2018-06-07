@@ -7,10 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="生成指令序列" HorizontalAlignment="Left" Margin="616,335,0,0" VerticalAlignment="Top" Width="124" Height="46" Click="CommandChosenButton_Click" Name="CommandChosenButton"/>
-        <Button Content="单步执行" HorizontalAlignment="Left" Margin="616,81,0,0" VerticalAlignment="Top" Width="124" Height="40" Click="SingleExecute_Click" Name="SingleExecute"/>
-        <Button Content="执行到底" HorizontalAlignment="Left" Margin="616,165,0,0" VerticalAlignment="Top" Width="124" Height="40" Click="AllExecute_Click" Name="AllExecute"/>
-        <Grid Margin="40,56,682.333,39.667" Name="Grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="717*"/>
+            <ColumnDefinition Width="77*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="生成指令序列" Margin="616,79,53.334,0" VerticalAlignment="Top" Height="38" Click="CommandChosenButton_Click" Name="CommandChosenButton" Grid.ColumnSpan="2"/>
+        <Button Content="单步执行" HorizontalAlignment="Left" Margin="616,157,0,0" VerticalAlignment="Top" Width="124" Height="40" Click="SingleExecute_Click" Name="SingleExecute" Grid.ColumnSpan="2"/>
+        <Button Content="执行到底" HorizontalAlignment="Left" Margin="616,229,0,0" VerticalAlignment="Top" Width="124" Height="40" Click="AllExecute_Click" Name="AllExecute" Grid.ColumnSpan="2"/>
+        <Grid Margin="40,56,605.667,39.667" Name="Grid1">
             <Label Content="Block1" Name="Block1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
 
             <Label Content="Label" Name="BLabel1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
@@ -25,18 +29,18 @@
             <Label Content="Label" Name="BLabel10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
         </Grid>
 
-        <Grid Margin="437,51,214.333,238.667">
+        <Grid Margin="437,51,137.667,238.667">
             <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="CurrentCommandText"/>
             <Label Content="当前指令" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142"/>
             <TextBox HorizontalAlignment="Left" Height="36" Margin="0,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="CommandAddressText"/>
             <Label Content="指令地址" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142" Margin="0,65,0,0"/>
         </Grid>
 
-        <Grid Margin="439,203,212.333,151.667">
+        <Grid Margin="439,203,135.667,151.667">
             <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Name="NextCommandText"/>
             <Label Content="下一条指令" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142"/>
         </Grid>
-        <Grid Margin="132,56,590.333,39.667" Name="Grid2">
+        <Grid Margin="132,56,513.667,39.667" Name="Grid2">
             <Label Content="Block2" Name="Block2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
 
             <Label Content="Label" Name="BLabel11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
@@ -50,7 +54,7 @@
             <Label Content="Label" Name="BLabel19" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,30"/>
             <Label Content="Label" Name="BLabel20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
         </Grid>
-        <Grid Margin="221,56,501.333,39.667" Name="Grid3">
+        <Grid Margin="221,56,424.667,39.667" Name="Grid3">
             <Label Content="Block3" Name="Block3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
 
             <Label Content="Label" Name="BLabel21" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
@@ -64,7 +68,7 @@
             <Label Content="Label" Name="BLabel29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray" Margin="0,0,0,30"/>
             <Label Content="Label" Name="BLabel30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="70" Background="LightGray"/>
         </Grid>
-        <Grid Margin="312,56,410.333,39.667" Name="Grid4">
+        <Grid Margin="312,56,333.667,39.667" Name="Grid4">
             <Label Content="Block4" Name="Block4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71"/>
 
             <Label Content="Label" Name="BLabel31" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="70" Background="LightGray" Margin="0,25,0,0"/>
@@ -84,10 +88,11 @@
         </Grid>
         <RadioButton Content="FIFO" HorizontalAlignment="Left" Margin="439,295,0,0" VerticalAlignment="Top" Name="FIFO_Button" Checked="RadioButton_Checked"/>
         <RadioButton Content="LRU" HorizontalAlignment="Left" Margin="538,295,0,0" VerticalAlignment="Top" Name="LRU_Button" Checked="LRU_Button_Checked" />
-        <Grid Margin="437,315,214.333,39.667">
+        <Grid Margin="437,315,137.667,39.667">
             <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" x:Name="LackedNumText"/>
             <Label Content="缺页数" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="142"/>
         </Grid>
+        <Button Content="复位" HorizontalAlignment="Left" Margin="616,345,0,0" VerticalAlignment="Top" Width="124" RenderTransformOrigin="0.436,-0.258" Height="36" Name="ClearButton" Click="ClearButton_Click" Grid.ColumnSpan="2"/>
 
 
 

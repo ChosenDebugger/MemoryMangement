@@ -17,3 +17,5 @@ C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMang
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\BeginCommandChosen.baml
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\LackedRate.g.cs
 C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\LackedRate.baml
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\ShowCommand.g.cs
+C:\Users\齐旭晨\Desktop\好好xiao习\os\Project_2\MemoryMangement\MemoryMangement\obj\Debug\ShowCommand.baml
