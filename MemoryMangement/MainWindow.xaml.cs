@@ -19,7 +19,7 @@ namespace MemoryMangement
 
     public partial class MainWindow : Window
     {
-        public int LackedNum = 0;                                       //缺页数
+        public int lackedNum = 0;                                       //缺页数
 
         private int commandChosenButtonModel = 1;                       //1时生成，2时显示
 
@@ -82,7 +82,7 @@ namespace MemoryMangement
             CurrentCommandText.Text = "-";
             CommandAddressText.Text = "-";
             NextCommandText.Text = "-";
-            LackedNumText.Text = Convert.ToString(LackedNum);
+            LackedNumText.Text = Convert.ToString(lackedNum);
         }
 
         private void UpdateMessage()
@@ -93,7 +93,7 @@ namespace MemoryMangement
             int pageID = (command[currentCommand - 1] - 1) / 10 + 1;
 
             CurrentCommandText.Text = Convert.ToString(command[currentCommand - 1]);
-            LackedNumText.Text = Convert.ToString(LackedNum);
+            LackedNumText.Text = Convert.ToString(lackedNum);
 
             if (currentCommand == 320)
                 NextCommandText.Text = "-";
@@ -109,7 +109,7 @@ namespace MemoryMangement
                 labelB.Content = "Page" + Convert.ToString(currentBlocks[i]);
 
                 if (currentBlocks[i] == pageID)
-                    labelB.Background = Brushes.LightGreen;
+                    labelB.Background = Brushes.Violet;
                 else
                     labelB.Background = Brushes.White;
 
@@ -120,7 +120,7 @@ namespace MemoryMangement
 
                     if ((currentBlocks[i] - 1) * 10 + j + 1 == command[currentCommand - 1])
                     {
-                        labelC.Background = Brushes.LightSkyBlue;
+                        labelC.Background = Brushes.DarkViolet;
                         currentCommandAddressBlock = i + 1;
                         currentCommandAddressNo = j + 1;
 
@@ -145,7 +145,7 @@ namespace MemoryMangement
 
         private void FinalCommand()
         {
-            LackedRate form = new LackedRate(LackedNum);
+            LackedRate form = new LackedRate(lackedNum);
             form.ShowDialog();
         }
 
@@ -302,7 +302,7 @@ namespace MemoryMangement
                 //缺页数++
                 else
                 {
-                    LackedNum++;
+                    lackedNum++;
 
                     //这里要区分FIFO和LRU
                     //FIFO
@@ -340,7 +340,7 @@ namespace MemoryMangement
             }
         }
         
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void FIFO_Button_Checked(object sender, RoutedEventArgs e)
         {
             alogrithmesModel = 1;
         }

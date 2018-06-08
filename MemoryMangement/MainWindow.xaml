@@ -86,7 +86,7 @@
 
 
         </Grid>
-        <RadioButton Content="FIFO" HorizontalAlignment="Left" Margin="439,295,0,0" VerticalAlignment="Top" Name="FIFO_Button" Checked="RadioButton_Checked"/>
+        <RadioButton Content="FIFO" HorizontalAlignment="Left" Margin="439,295,0,0" VerticalAlignment="Top" Name="FIFO_Button" Checked="FIFO_Button_Checked"/>
         <RadioButton Content="LRU" HorizontalAlignment="Left" Margin="538,295,0,0" VerticalAlignment="Top" Name="LRU_Button" Checked="LRU_Button_Checked" />
         <Grid Margin="437,315,137.667,39.667">
             <TextBox HorizontalAlignment="Left" Height="36" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" x:Name="LackedNumText"/>
